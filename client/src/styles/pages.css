@@ -11,7 +11,7 @@
     radial-gradient(circle at 12% 110%, rgba(99, 102, 241, 0.4), transparent 46%),
     linear-gradient(115deg, #0b1220 0%, #111c34 55%, #0c1a2c 100%);
   border-radius: var(--radius-lg);
-  padding: 26px 28px;
+  padding: clamp(18px, 3vw, 26px) clamp(18px, 3vw, 28px);
   color: #fff;
   overflow: hidden;
   margin-bottom: 18px;
@@ -130,6 +130,7 @@
   letter-spacing: -0.02em;
   text-transform: none;
   margin-top: 2px;
+  overflow-wrap: anywhere;
 }
 
 .hero-actions {
@@ -236,7 +237,7 @@
 }
 
 .chart-height {
-  height: 244px;
+  height: clamp(200px, 32vw, 260px);
   width: 100%;
 }
 
@@ -710,6 +711,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  animation: fadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 .product-card:hover {
@@ -992,6 +994,7 @@
   color: var(--ink-900);
   margin-top: 2px;
   font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
 }
 
 .detail-actions {
@@ -1301,7 +1304,7 @@
    ══════════════════════════════════════════════════════════════════════ */
 .supplier-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: 14px;
 }
 
@@ -1313,6 +1316,7 @@
   transition: all var(--transition);
   display: flex;
   flex-direction: column;
+  animation: fadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 .supplier-card:hover {
@@ -1493,6 +1497,7 @@
   background: #f1f4f9;
   padding: 3px;
   border-radius: 9px;
+  scrollbar-width: none;
 }
 
 .preset-btns button {
@@ -1516,6 +1521,7 @@
   align-items: center;
   gap: 10px;
   padding: 7px 0;
+  min-width: 0;
 }
 
 .report-bar-label {
@@ -1596,6 +1602,7 @@
   letter-spacing: -0.03em;
   color: var(--ink-900);
   margin-top: 2px;
+  overflow-wrap: anywhere;
 }
 
 .report-total strong.amber {
@@ -1611,7 +1618,7 @@
    ══════════════════════════════════════════════════════════════════════ */
 .role-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
@@ -1733,6 +1740,7 @@
   background: #fff;
   position: relative;
   transition: all var(--transition);
+  animation: fadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 .notif-page-card:hover {
@@ -1994,13 +2002,16 @@
 /* ══════════════════════════════════════════════════════════════════════
    Responsive page tweaks
    ══════════════════════════════════════════════════════════════════════ */
+@media (pointer: coarse) {
+  .view-toggle button {
+    width: 38px;
+    height: 36px;
+  }
+}
+
 @media (max-width: 1199.98px) {
   .report-layout {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .role-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .detail-stats {
@@ -2079,10 +2090,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .role-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .stock-split {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2097,6 +2104,16 @@
 
   .alert-summary {
     flex-wrap: wrap;
+  }
+
+  .date-range {
+    width: 100%;
+  }
+
+  .date-range .control {
+    flex: 1;
+    width: auto;
+    min-width: 0;
   }
 }
 
@@ -2115,6 +2132,22 @@
     height: 96px;
   }
 
+  .detail-hero {
+    padding: 14px;
+  }
+
+  .detail-title-row {
+    flex-direction: column;
+  }
+
+  .detail-actions {
+    width: 100%;
+  }
+
+  .detail-actions .btn {
+    flex: 1;
+  }
+
   .detail-stats {
     gap: 8px;
   }
@@ -2127,6 +2160,16 @@
     font-size: 15px;
   }
 
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .hero-title {
+    font-size: 21px;
+  }
+
   .hero-actions {
     width: 100%;
   }
@@ -2135,9 +2178,69 @@
     flex: 1;
   }
 
+  .donut-wrap {
+    height: 170px;
+  }
+
+  .branch-stats {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .insight-strip {
+    flex-wrap: wrap;
+  }
+
+  .insight-strip .link {
+    margin-left: 0;
+  }
+
+  .kv-row {
+    gap: 10px;
+  }
+
+  .order-line {
+    flex-wrap: wrap;
+  }
+
   .report-bar-label {
     width: 84px;
     font-size: 10.5px;
+  }
+
+  .notif-page-card {
+    padding: 12px;
+  }
+
+  .notif-page-actions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .profile-header {
+    padding: 16px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .profile-badges {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .report-bar-row {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+
+  .report-bar-label {
+    width: 100%;
+  }
+
+  .report-bar-track {
+    flex: 1 1 0;
   }
 }
 
@@ -2250,135 +2353,12 @@
   .supplier-card.is-interactive {
     cursor: pointer;
   }
-}/* ══════════════════════════════════════════════════════════════════════
-   pages.additions.css — load right AFTER your pages file
-   Dashboard, product detail, suppliers, reports, roles, notifications, profile
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* ── Dashboard ─────────────────────────────────────────────────────────── */
-.dash-hero {
-  padding: clamp(18px, 3vw, 26px) clamp(18px, 3vw, 28px);
-}
-.chart-height {
-  height: clamp(200px, 32vw, 260px);
 }
 
-.hero-metric strong,
-.detail-stat strong,
-.report-total strong {
-  overflow-wrap: anywhere;
-}
-
-@media (max-width: 575.98px) {
-  .hero-metrics {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-  }
-  .hero-title {
-    font-size: 21px;
-  }
-  .donut-wrap {
-    height: 170px;
-  }
-  .branch-stats {
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-  .insight-strip {
-    flex-wrap: wrap;
-  }
-  .insight-strip .link {
-    margin-left: 0;
-  }
-}
-
-/* ── Collections: suppliers & roles adapt to available width ───────────── */
-.supplier-grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-}
-.role-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-}
-
-/* ── Product / record detail ───────────────────────────────────────────── */
-@media (max-width: 575.98px) {
-  .detail-hero {
-    padding: 14px;
-  }
-  .detail-title-row {
-    flex-direction: column;
-  }
-  .detail-actions {
-    width: 100%;
-  }
-  .detail-actions .btn {
-    flex: 1;
-  }
-  .kv-row {
-    gap: 10px;
-  }
-  .order-line {
-    flex-wrap: wrap;
-  }
-}
-
-@media (pointer: coarse) {
-  .view-toggle button {
-    width: 38px;
-    height: 36px;
-  }
-}
-
-/* ── Reports ───────────────────────────────────────────────────────────── */
-.report-bar-row {
-  min-width: 0;
-}
-@media (max-width: 479.98px) {
-  .report-bar-row {
-    flex-wrap: wrap;
-    gap: 4px 10px;
-  }
-  .report-bar-label {
-    width: 100%;
-  }
-  .report-bar-track {
-    flex: 1 1 0;
-  }
-}
-
-/* Ledger date range fills the row on phones */
-@media (max-width: 767.98px) {
-  .date-range {
-    width: 100%;
-  }
-  .date-range .control {
-    flex: 1;
-    width: auto;
-    min-width: 0;
-  }
-}
-
-/* ── Notifications ─────────────────────────────────────────────────────── */
-@media (max-width: 575.98px) {
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .supplier-card,
   .notif-page-card {
-    padding: 12px;
-  }
-  .notif-page-actions {
-    width: 100%;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-}
-
-/* ── Profile ───────────────────────────────────────────────────────────── */
-@media (max-width: 575.98px) {
-  .profile-header {
-    padding: 16px;
-    text-align: center;
-    justify-content: center;
-  }
-  .profile-badges {
-    justify-content: center;
+    animation: none !important;
   }
 }

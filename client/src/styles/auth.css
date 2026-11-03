@@ -52,7 +52,7 @@
   width: 100%;
   max-width: 392px;
   margin: 46px auto 28px;
-  animation: fadeUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: fadeUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
 .auth-kicker {
