@@ -1,6 +1,7 @@
 /* ── Sign-in experience ────────────────────────────────────────────────── */
 .auth-page {
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   background: #fff;
@@ -12,11 +13,13 @@
   flex-direction: column;
   justify-content: center;
   padding: 42px clamp(24px, 5vw, 74px);
+  padding-bottom: calc(42px + var(--safe-bottom));
   background:
     radial-gradient(circle at 8% 4%, rgba(99, 102, 241, 0.07), transparent 34%),
     radial-gradient(circle at 92% 96%, rgba(20, 184, 166, 0.07), transparent 36%),
     #fff;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .auth-brand {
@@ -122,6 +125,13 @@
   align-items: center;
   gap: 7px;
   color: var(--muted);
+}
+
+.auth-remember input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand-600);
+  cursor: pointer;
 }
 
 .auth-help {
@@ -243,6 +253,7 @@
   overflow: hidden;
   background: #0b1220;
   min-height: calc(100vh - 28px);
+  min-height: calc(100dvh - 28px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -521,6 +532,41 @@
   height: 70%;
 }
 
+/* ── Responsive ────────────────────────────────────────────────────────── */
+
+/* Short laptop screens: brand and footer flow with the form, no overlap */
+@media (min-width: 992px) and (max-height: 760px) {
+  .auth-form-side {
+    justify-content: flex-start;
+    padding-top: 28px;
+  }
+
+  .auth-brand {
+    position: static;
+    margin-bottom: 8px;
+  }
+
+  .auth-form-wrap {
+    margin-top: 12px;
+  }
+
+  .auth-foot {
+    position: static;
+    margin-top: 12px;
+  }
+}
+
+/* Mid-width: keep the visual, hide the floating card so nothing overlaps */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .floating-alert {
+    display: none;
+  }
+
+  .auth-visual {
+    padding: 30px;
+  }
+}
+
 @media (max-width: 991.98px) {
   .auth-page {
     grid-template-columns: minmax(0, 1fr);
@@ -532,6 +578,11 @@
 
   .auth-form-side {
     min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .auth-form-wrap {
+    max-width: 440px;
   }
 }
 
@@ -560,78 +611,22 @@
   .demo-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-}
-/* ══════════════════════════════════════════════════════════════════════
-   auth.additions.css — load right AFTER your sign-in file
-   Dynamic viewport height, short screens, tablet widths, phones
-   ══════════════════════════════════════════════════════════════════════ */
 
-.auth-page {
-  min-height: 100dvh;
-}
-.auth-form-side {
-  min-height: 100dvh;
-  padding-bottom: calc(42px + var(--safe-bottom));
-}
-.auth-visual {
-  min-height: calc(100dvh - 28px);
-}
-
-/* Short laptop screens: brand and footer flow with the form, no overlap */
-@media (min-width: 992px) and (max-height: 760px) {
-  .auth-form-side {
-    justify-content: flex-start;
-    padding-top: 28px;
-  }
-  .auth-brand {
-    position: static;
-    margin-bottom: 8px;
-  }
-  .auth-form-wrap {
-    margin-top: 12px;
-  }
-  .auth-foot {
-    position: static;
-    margin-top: 12px;
-  }
-}
-
-/* Mid-width: keep the visual, hide the floating card so nothing overlaps */
-@media (min-width: 992px) and (max-width: 1199.98px) {
-  .floating-alert {
-    display: none;
-  }
-  .auth-visual {
-    padding: 30px;
-  }
-}
-
-@media (max-width: 991.98px) {
-  .auth-form-wrap {
-    max-width: 440px;
-  }
-}
-
-@media (max-width: 575.98px) {
   .auth-title {
     font-size: 26px;
   }
+
   .auth-row {
     flex-wrap: wrap;
   }
+
   .auth-submit {
     min-height: 50px;
   }
+
   .demo-btn {
     min-height: 40px;
   }
-}
-
-.auth-remember input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--brand-600);
-  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {

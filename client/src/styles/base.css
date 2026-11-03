@@ -67,6 +67,15 @@
   --sidebar-width: 266px;
   --topbar-height: 68px;
   --transition: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Responsive / touch additions */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --tap: 44px;
+  --page-gutter: clamp(14px, 2.2vw, 28px);
+  --press: scale(0.97);
 }
 
 *,
@@ -77,6 +86,8 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--topbar-height) + 12px);
 }
 
 html,
@@ -95,6 +106,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+body.sidebar-open,
+body.no-scroll {
+  overflow: hidden;
+  touch-action: none;
 }
 
 h1,
@@ -172,6 +191,26 @@ ol {
 
 *::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Skip link for keyboard users: <a class="skip-link" href="#main">Skip to content</a> */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 300;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--ink-900);
+  color: #fff;
+  font-weight: 600;
+  transform: translateY(-150%);
+  transition: transform var(--transition);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  color: #fff;
 }
 
 /* ── Utility helpers ───────────────────────────────────────────────────── */
@@ -366,6 +405,30 @@ ol {
   }
 }
 
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes sheetUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -376,57 +439,12 @@ ol {
     scroll-behavior: auto !important;
   }
 }
+
 /* ══════════════════════════════════════════════════════════════════════
-   base.additions.css  — load right AFTER your tokens/base/utilities file
-   Fluid tokens, safe areas, touch behaviour, accessibility, utilities
+   Responsive & interaction enhancements
    ══════════════════════════════════════════════════════════════════════ */
 
-:root {
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-left: env(safe-area-inset-left, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
-  --tap: 44px;
-  --page-gutter: clamp(14px, 2.2vw, 28px);
-  --press: scale(0.97);
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--topbar-height) + 12px);
-}
-
-body {
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
-}
-
-body.sidebar-open,
-body.no-scroll {
-  overflow: hidden;
-  touch-action: none;
-}
-
-/* Skip link for keyboard users: <a class="skip-link" href="#main">Skip to content</a> */
-.skip-link {
-  position: fixed;
-  top: 8px;
-  left: 8px;
-  z-index: 300;
-  padding: 10px 16px;
-  border-radius: 10px;
-  background: var(--ink-900);
-  color: #fff;
-  font-weight: 600;
-  transform: translateY(-150%);
-  transition: transform var(--transition);
-}
-.skip-link:focus {
-  transform: translateY(0);
-  color: #fff;
-}
-
-/* ── Touch behaviour & press feedback ──────────────────────────────────── */
+/* Touch behaviour & press feedback */
 .btn,
 .icon-btn,
 .quick-tile,
@@ -465,10 +483,11 @@ body.no-scroll {
   outline-offset: 2px;
 }
 
-/* ── Tooltip: <button data-tip="Edit product"> ─────────────────────────── */
+/* Tooltip: <button data-tip="Edit product"> */
 [data-tip] {
   position: relative;
 }
+
 @media (hover: hover) and (pointer: fine) {
   [data-tip]::after {
     content: attr(data-tip);
@@ -495,7 +514,7 @@ body.no-scroll {
   }
 }
 
-/* ── Touch devices: no "stuck" hover lifts ─────────────────────────────── */
+/* Touch devices: no "stuck" hover lifts */
 @media (hover: none) {
   .stat-card:hover,
   .product-card:hover,
@@ -566,7 +585,7 @@ body.no-scroll {
   }
 }
 
-/* ── Accessibility & user preferences ──────────────────────────────────── */
+/* Accessibility & user preferences */
 @media (prefers-contrast: more) {
   :root {
     --line: #c5ccdb;
@@ -596,24 +615,29 @@ body.no-scroll {
   }
 }
 
-/* ── Utilities ─────────────────────────────────────────────────────────── */
+/* Extra utilities */
 .scroll-x {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
+
 .sticky-top {
   position: sticky;
   top: calc(var(--topbar-height) + 12px);
 }
+
 .hide-mobile {
   display: initial;
 }
+
 .show-mobile {
   display: none !important;
 }
+
 @media (max-width: 767.98px) {
   .hide-mobile {
     display: none !important;
@@ -626,25 +650,9 @@ body.no-scroll {
     align-items: stretch;
   }
 }
+
 @media (max-width: 991.98px) {
   .hide-tablet {
     display: none !important;
-  }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
-}
-
-@keyframes sheetUp {
-  from {
-    transform: translateY(40px);
-    opacity: 0.6;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
   }
 }

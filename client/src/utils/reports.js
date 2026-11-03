@@ -9,7 +9,7 @@ import {
 } from './format.js';
 import { exportPdf } from './pdf.js';
 
-const CURRENCY_NOTE = 'All monetary values are in Kenyan Shillings (KES).';
+const CURRENCY_NOTE = 'All monetary values are in Rwandan Francs (RWF).';
 
 function authorLine(profile) {
   if (!profile?.name) return 'Mrskariza inventory team';
@@ -141,7 +141,7 @@ function stockCsv(data, profile) {
         { label: 'Products tracked', value: totals.products || 0 },
         { label: 'Main store units', value: totals.mainUnits || 0 },
         { label: 'Branch units', value: totals.branchUnits || 0 },
-        { label: 'Total stock value (KES)', value: totals.value || 0 },
+        { label: 'Total stock value (RWF)', value: totals.value || 0 },
         { label: 'Low stock products', value: totals.lowStock || 0 },
         { label: 'Out of stock products', value: totals.outOfStock || 0 },
       ],
@@ -153,7 +153,7 @@ function stockCsv(data, profile) {
         { label: 'Products', value: (row) => row.products },
         { label: 'Main units', value: (row) => row.mainUnits },
         { label: 'Branch units', value: (row) => row.branchUnits },
-        { label: 'Stock value (KES)', value: (row) => row.value },
+        { label: 'Stock value (RWF)', value: (row) => row.value },
       ],
       rows: categories,
     },
@@ -167,8 +167,8 @@ function stockCsv(data, profile) {
         { label: 'Main store quantity', value: (row) => row.quantity },
         { label: 'Branch quantity', value: (row) => row.branchQuantity },
         { label: 'Reorder level', value: (row) => row.reorderLevel },
-        { label: 'Unit cost (KES)', value: (row) => row.unitCost },
-        { label: 'Total value (KES)', value: (row) => stockValue(row) },
+        { label: 'Unit cost (RWF)', value: (row) => row.unitCost },
+        { label: 'Total value (RWF)', value: (row) => stockValue(row) },
         { label: 'Stock status', value: stockStatus },
         { label: 'Supplier', value: (row) => row.supplier?.name || 'No supplier' },
       ],
@@ -305,9 +305,9 @@ function movementCsv(data, profile) {
       ],
       rows: [
         { label: 'Units received', value: summary.unitsIn || 0 },
-        { label: 'Purchase value in (KES)', value: summary.valueIn || 0 },
+        { label: 'Purchase value in (RWF)', value: summary.valueIn || 0 },
         { label: 'Units issued', value: summary.unitsOut || 0 },
-        { label: 'Issued value out (KES)', value: summary.valueOut || 0 },
+        { label: 'Issued value out (RWF)', value: summary.valueOut || 0 },
         { label: 'Ledger entries', value: summary.entries || 0 },
         { label: 'Net units', value: (summary.unitsIn || 0) - (summary.unitsOut || 0) },
       ],
@@ -330,7 +330,7 @@ function movementCsv(data, profile) {
         { label: 'Direction', value: (row) => (row.direction === 'out' ? 'Stock out' : 'Stock in') },
         { label: 'Entries', value: (row) => row.entries },
         { label: 'Units', value: (row) => row.units },
-        { label: 'Value (KES)', value: (row) => row.value },
+        { label: 'Value (RWF)', value: (row) => row.value },
       ],
       rows: byType,
       empty: 'No movement types for this period.',
@@ -341,7 +341,7 @@ function movementCsv(data, profile) {
         { label: 'Category', key: '_id' },
         { label: 'Units in', value: (row) => row.unitsIn },
         { label: 'Units out', value: (row) => row.unitsOut },
-        { label: 'Value (KES)', value: (row) => row.value },
+        { label: 'Value (RWF)', value: (row) => row.value },
       ],
       rows: byCategory,
       empty: 'No category movement for this period.',
@@ -354,7 +354,7 @@ function movementCsv(data, profile) {
         { label: 'Units in', value: (row) => row.unitsIn },
         { label: 'Units out', value: (row) => row.unitsOut },
         { label: 'Total moved', value: (row) => row.unitsIn + row.unitsOut },
-        { label: 'Value (KES)', value: (row) => row.value },
+        { label: 'Value (RWF)', value: (row) => row.value },
       ],
       rows: topProducts,
       empty: 'No product movement for this period.',
@@ -443,7 +443,7 @@ function consumptionCsv(data, profile) {
       title: 'Consumption Report',
       period,
       profile,
-      note: 'Only completed issues are counted. Voided records are excluded. All monetary values are in KES.',
+      note: 'Only completed issues are counted. Voided records are excluded. All monetary values are in RWF.',
       reference,
     }),
     {
@@ -454,7 +454,7 @@ function consumptionCsv(data, profile) {
       ],
       rows: [
         { label: 'Units consumed', value: summary.units || 0 },
-        { label: 'Consumption value (KES)', value: summary.value || 0 },
+        { label: 'Consumption value (RWF)', value: summary.value || 0 },
         { label: 'Issue records', value: summary.records || 0 },
         { label: 'Products issued', value: byProduct.length },
         { label: 'Recipient groups', value: byDepartment.length },
@@ -467,7 +467,7 @@ function consumptionCsv(data, profile) {
         { label: 'Issue records', value: (row) => row.records },
         { label: 'Units issued', value: (row) => row.units },
         { label: 'Share of units (%)', value: (row) => Math.round((row.units / totalUnits) * 100) },
-        { label: 'Value (KES)', value: (row) => row.value },
+        { label: 'Value (RWF)', value: (row) => row.value },
       ],
       rows: byDepartment,
       empty: 'No consumption was recorded for this period.',
@@ -479,7 +479,7 @@ function consumptionCsv(data, profile) {
         { label: 'Unit', key: 'unit' },
         { label: 'Units issued', value: (row) => row.units },
         { label: 'Share of units (%)', value: (row) => Math.round((row.units / totalUnits) * 100) },
-        { label: 'Estimated value (KES)', value: (row) => row.value },
+        { label: 'Estimated value (RWF)', value: (row) => row.value },
       ],
       rows: byProduct,
       empty: 'No products were issued for this period.',

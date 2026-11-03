@@ -460,7 +460,7 @@ export default function Dashboard() {
                 </ResponsiveContainer>
                 <div className="donut-center">
                   <strong>{formatCompact(categoryTotal)}</strong>
-                  <span>KES value</span>
+                  <span>RWF value</span>
                 </div>
               </div>
               <div className="legend-grid">

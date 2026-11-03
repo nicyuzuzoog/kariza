@@ -185,7 +185,7 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
                 })}
               />
             </Field>
-            <Field label="Unit cost (KES)" error={errors.unitCost?.message}>
+            <Field label="Unit cost (RWF)" error={errors.unitCost?.message}>
               <input
                 type="number"
                 min="0"

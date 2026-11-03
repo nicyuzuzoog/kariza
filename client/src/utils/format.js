@@ -1,10 +1,10 @@
-const currencyFormatter = new Intl.NumberFormat('en-KE', {
+const currencyFormatter = new Intl.NumberFormat('en-RW', {
   style: 'currency',
-  currency: 'KES',
+  currency: 'RWF',
   maximumFractionDigits: 0,
 });
 
-const numberFormatter = new Intl.NumberFormat('en-KE', { maximumFractionDigits: 1 });
+const numberFormatter = new Intl.NumberFormat('en-RW', { maximumFractionDigits: 1 });
 
 export const formatCurrency = (value) => currencyFormatter.format(Number(value) || 0);
 
