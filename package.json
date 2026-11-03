@@ -1,0 +1,36 @@
+{
+  "name": "mrskariza",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mrskariza — school supplies & food stock management system",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c blue,magenta \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "node --watch server/server.js",
+    "dev:web": "npm --prefix client run dev",
+    "start": "node server/server.js",
+    "seed": "node server/seeders/seed.js",
+    "seed:demo": "node server/seeders/seed.js --demo",
+    "seed:demo:fresh": "node server/seeders/seed.js --demo --fresh",
+    "build": "npm --prefix client run build",
+    "install:all": "npm install && npm --prefix client install"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
