@@ -3,9 +3,14 @@ import axios from 'axios';
 const TOKEN_KEY = 'mrskariza_token';
 const USER_KEY = 'mrskariza_user';
 
+// Production builds talk to the Render API. VITE_API_URL still wins if it is set,
+// so the URL can be overridden per-environment without touching this file.
+const PROD_API_URL = 'https://kariza-api.onrender.com/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
-  timeout: 25000,
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? PROD_API_URL : '/api'),
+  // Render's free tier sleeps after 15 minutes and can take 30-60s to wake up.
+  timeout: 60000,
   headers: { 'Content-Type': 'application/json' },
 });
 
