@@ -2,7 +2,7 @@ import Product from '../models/Product.js';
 import Supplier from '../models/Supplier.js';
 import LedgerEntry from '../models/LedgerEntry.js';
 import Purchase from '../models/Purchase.js';
-import { PRODUCT_CATEGORIES, UNITS } from '../config/constants.js';
+import { PRODUCT_CATEGORIES, UNIFORM_CATEGORY, UNIFORM_VARIANTS, UNITS } from '../config/constants.js';
 import { badRequest, catchAsync, notFound } from '../utils/ApiError.js';
 import { escapeRegex, parsePagination } from '../utils/helpers.js';
 import { recordAudit } from '../utils/audit.js';
@@ -110,6 +110,8 @@ export const getProductOptions = catchAsync(async (_req, res) => {
   res.json({
     categories: PRODUCT_CATEGORIES,
     units: UNITS,
+    uniformVariants: UNIFORM_VARIANTS,
+    uniformCategory: UNIFORM_CATEGORY,
     suppliers,
   });
 });
@@ -148,6 +150,12 @@ export const createProduct = catchAsync(async (req, res) => {
   const body = { ...req.body, createdBy: req.user._id };
   if (!body.supplier) delete body.supplier;
   if (!body.sku) delete body.sku;
+
+  if (body.category !== UNIFORM_CATEGORY) {
+    delete body.variant;
+  } else if (!body.variant) {
+    throw badRequest('Choose the uniform item — skirt, trousers, shirt, sweater, socks, …');
+  }
 
   const product = await Product.create(body);
 
@@ -196,6 +204,7 @@ export const updateProduct = catchAsync(async (req, res) => {
     'sku',
     'category',
     'unit',
+    'variant',
     'description',
     'imageUrl',
     'reorderLevel',
@@ -208,9 +217,16 @@ export const updateProduct = catchAsync(async (req, res) => {
     if (req.body[key] !== undefined) {
       if (key === 'supplier' && !req.body[key]) product[key] = undefined;
       else if (key === 'sku' && !req.body[key]) return;
+      else if (key === 'variant' && !req.body[key]) product[key] = undefined;
       else product[key] = req.body[key];
     }
   });
+
+  if (product.category !== UNIFORM_CATEGORY) {
+    product.variant = undefined;
+  } else if (!product.variant) {
+    throw badRequest('Choose the uniform item — skirt, trousers, shirt, sweater, socks, …');
+  }
 
   await product.save();
   await syncStockNotification(product);

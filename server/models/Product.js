@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PRODUCT_CATEGORIES, UNITS } from '../config/constants.js';
+import { PRODUCT_CATEGORIES, UNIFORM_VARIANTS, UNITS } from '../config/constants.js';
 
 const productSchema = new mongoose.Schema(
   {
@@ -26,6 +26,12 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: { values: UNITS, message: 'Invalid unit' },
       default: 'piece',
+    },
+    // Only used for the "Uniforms & Wear" category: which garment this is.
+    variant: {
+      type: String,
+      enum: { values: UNIFORM_VARIANTS, message: 'Invalid uniform item' },
+      trim: true,
     },
     description: { type: String, trim: true, maxlength: 500 },
     imageUrl: { type: String, trim: true },
@@ -68,6 +74,7 @@ productSchema.pre('validate', function ensureSku() {
 
 productSchema.index({ name: 'text', sku: 'text', description: 'text' });
 productSchema.index({ category: 1, isActive: 1 });
+productSchema.index({ category: 1, variant: 1 });
 productSchema.index({ quantity: 1, reorderLevel: 1 });
 
 export default mongoose.model('Product', productSchema);

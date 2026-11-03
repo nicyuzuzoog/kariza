@@ -163,6 +163,7 @@ function stockCsv(data, profile) {
         { label: 'Product', key: 'name' },
         { label: 'SKU', key: 'sku' },
         { label: 'Category', key: 'category' },
+        { label: 'Uniform item', value: (row) => row.variant || '' },
         { label: 'Unit', key: 'unit' },
         { label: 'Main store quantity', value: (row) => row.quantity },
         { label: 'Branch quantity', value: (row) => row.branchQuantity },

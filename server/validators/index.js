@@ -3,6 +3,8 @@ import {
   BRANCHES,
   PRODUCT_CATEGORIES,
   ROLE_LIST,
+  UNIFORM_CATEGORY,
+  UNIFORM_VARIANTS,
   UNITS,
 } from '../config/constants.js';
 
@@ -61,11 +63,12 @@ export const resetPasswordSchema = z.object({
   password,
 });
 
-export const productSchema = z.object({
+const productBaseSchema = z.object({
   name: z.string().trim().min(2, 'Product name must be at least 2 characters').max(120),
   sku: z.string().trim().max(40).optional().or(z.literal('')),
   category: z.enum(PRODUCT_CATEGORIES),
   unit: z.enum(UNITS),
+  variant: z.enum(UNIFORM_VARIANTS).optional().or(z.literal('')),
   description: optionalText(500),
   imageUrl: z.union([z.literal(''), z.string().url('Enter a valid image URL')]).optional(),
   quantity: nonNegative.default(0),
@@ -76,7 +79,15 @@ export const productSchema = z.object({
   storageLocation: optionalText(120),
 });
 
-export const productUpdateSchema = productSchema.partial();
+export const productSchema = productBaseSchema.refine(
+  (data) => data.category !== UNIFORM_CATEGORY || Boolean(data.variant),
+  {
+    message: 'Choose the uniform item — skirt, trousers, shirt, sweater, socks, …',
+    path: ['variant'],
+  }
+);
+
+export const productUpdateSchema = productBaseSchema.partial();
 
 export const adjustStockSchema = z.object({
   quantity,

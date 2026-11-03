@@ -92,6 +92,12 @@ export default function ProductDetail() {
                 <i className={`bi ${meta.icon}`} />
                 {product.category}
               </span>
+              {product.variant ? (
+                <span className="code-chip">
+                  <i className="bi bi-tag" />
+                  {product.variant}
+                </span>
+              ) : null}
               <span className="code-chip">
                 <i className="bi bi-upc" />
                 {product.sku}

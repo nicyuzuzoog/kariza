@@ -65,6 +65,21 @@ export const ROLE_META = {
 
 export const ROLES = ['super_admin', 'accountant', 'storekeeper', 'principal'];
 
+export const UNIFORM_CATEGORY = 'Uniforms & Wear';
+
+export const UNIFORM_VARIANTS = [
+  'Shirt',
+  'Skirt',
+  'Shorts',
+  'Trousers',
+  'Sweater',
+  'Socks',
+  'Sports T-shirt',
+  'Sports shorts',
+  'Sports socks',
+  'Other',
+];
+
 export const PERMISSIONS = {
   manageInventory: ['super_admin', 'accountant'],
   recordIssues: ['super_admin', 'accountant', 'storekeeper'],

@@ -25,6 +25,21 @@ export const PRODUCT_CATEGORIES = [
 
 export const UNITS = ['piece', 'pack', 'box', 'carton', 'ream', 'dozen', 'kg', 'g', 'litre', 'ml'];
 
+export const UNIFORM_CATEGORY = 'Uniforms & Wear';
+
+export const UNIFORM_VARIANTS = [
+  'Shirt',
+  'Skirt',
+  'Shorts',
+  'Trousers',
+  'Sweater',
+  'Socks',
+  'Sports T-shirt',
+  'Sports shorts',
+  'Sports socks',
+  'Other',
+];
+
 export const BRANCHES = ['main', 'branch'];
 
 export const LOCATION_LABELS = {

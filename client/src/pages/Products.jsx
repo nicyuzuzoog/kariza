@@ -172,6 +172,7 @@ export default function Products() {
         { label: 'Product', key: 'name' },
         { label: 'SKU', key: 'sku' },
         { label: 'Category', key: 'category' },
+        { label: 'Uniform item', value: (row) => row.variant || '' },
         { label: 'Unit', key: 'unit' },
         { label: 'Main quantity', key: 'quantity' },
         { label: 'Branch quantity', key: 'branchQuantity' },
@@ -383,7 +384,9 @@ export default function Products() {
                               {product.name}
                             </Link>
                             <p className="cell-sub">
-                              {product.sku} · {product.storageLocation || 'No storage location'}
+                              {product.sku}
+                              {product.variant ? ` · ${product.variant}` : ''} ·{' '}
+                              {product.storageLocation || 'No storage location'}
                             </p>
                           </div>
                         </div>
@@ -495,6 +498,7 @@ function ProductCard({ product, actions }) {
             <p className="product-sku">
               <i className="bi bi-upc" />
               {product.sku}
+              {product.variant ? <> · {product.variant}</> : null}
               {product.storageLocation ? <> · {product.storageLocation}</> : null}
             </p>
           </div>

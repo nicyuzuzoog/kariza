@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import api from '../services/api.js';
 import { useToast } from '../contexts/ToastContext.jsx';
-import { PRODUCT_CATEGORIES, UNITS } from '../utils/constants.js';
+import { PRODUCT_CATEGORIES, UNIFORM_CATEGORY, UNIFORM_VARIANTS, UNITS } from '../utils/constants.js';
 import { formatNumber, getErrorMessage } from '../utils/format.js';
 import { Drawer, Field, InlineAlert, Segmented } from './ui.jsx';
 
@@ -22,6 +22,7 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -29,6 +30,7 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
       sku: '',
       category: PRODUCT_CATEGORIES[0],
       unit: 'piece',
+      variant: '',
       supplier: '',
       reorderLevel: 10,
       unitCost: 0,
@@ -40,6 +42,8 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
     },
   });
 
+  const isUniform = watch('category') === UNIFORM_CATEGORY;
+
   useEffect(() => {
     if (!open) return;
     setError('');
@@ -48,6 +52,7 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
       sku: product?.sku || '',
       category: product?.category || PRODUCT_CATEGORIES[0],
       unit: product?.unit || 'piece',
+      variant: product?.variant || '',
       supplier: product?.supplier?._id || product?.supplier || '',
       reorderLevel: product?.reorderLevel ?? 10,
       unitCost: product?.unitCost ?? 0,
@@ -75,6 +80,7 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
       sku: values.sku?.trim() || '',
       category: values.category,
       unit: values.unit,
+      variant: values.category === UNIFORM_CATEGORY ? values.variant || '' : '',
       supplier: values.supplier || '',
       reorderLevel: numberOrZero(values.reorderLevel),
       unitCost: numberOrZero(values.unitCost),
@@ -151,6 +157,26 @@ export function ProductFormDrawer({ open, onClose, product, onSaved }) {
                 ))}
               </select>
             </Field>
+            {isUniform ? (
+              <Field
+                label="Uniform item"
+                required
+                hint="Which garment is this? Skirt, trousers, shirt, sweater, socks or sports kit."
+                error={errors.variant?.message}
+              >
+                <select
+                  className={`control ${errors.variant ? 'is-invalid' : ''}`.trim()}
+                  {...register('variant', { required: 'Choose the uniform item' })}
+                >
+                  <option value="">Select the item…</option>
+                  {UNIFORM_VARIANTS.map((variant) => (
+                    <option value={variant} key={variant}>
+                      {variant}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            ) : null}
             <Field label="Unit" required error={errors.unit?.message}>
               <select className="control" {...register('unit', { required: 'Choose a unit' })}>
                 {options.units.map((unit) => (
